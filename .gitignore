@@ -4,6 +4,7 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
 
 # Runtime data
 pids
@@ -58,8 +59,4 @@ typings/
 .env
 
 # next.js build output
-<<<<<<< HEAD
 .next
-=======
-.next
->>>>>>> 144e8cfca781e75dad1447cca31574b1eb85648b
