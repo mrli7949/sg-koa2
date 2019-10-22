@@ -1,6 +1,7 @@
 //import * as name from 'name'; commonjs模块的导入方法 的ts导入方法
 import * as Koa from 'koa';
 import * as Router from "koa-router";
+import * as jwt from 'koa-jwt';
 
 const app:Koa = new Koa()
 const views = require('koa-views')
@@ -10,20 +11,21 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const path = require('path')
+var cors = require('koa2-cors');
 
-const index:Router = require('./routes/index')
-const users:Router = require('./routes/users')
+const MainRoutes :Router = require('./routes/index')
 
 // error handler
 onerror(app)
 
 // middlewares
+app.use(cors());
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(path.resolve(__dirname, '../web')))
 
 // install the engines you wish to use
 app.use(views(path.resolve(__dirname, '../web'), {
@@ -43,9 +45,16 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
+// const proviteKey = 'asfweergerhethrthrthtr'
+// app.use(jwt({ // Static resource
+//   secret: proviteKey
+// }).unless({
+//   //无需jwt的路由
+//   path: [/^\/v1\/login\/aminLogin/, /^\/public/, /^\/assets/]
+// }))
+
 // routes
-app.use(index.routes()).use(index.allowedMethods())
-app.use(users.routes()).use(users.allowedMethods())
+app.use(MainRoutes.routes()).use(MainRoutes.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

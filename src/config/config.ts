@@ -4,7 +4,7 @@ export const mysqlConfig = {
     host: 'localhost', // 服务器地址
     port: 3306,
     user: 'root', // 数据库用户名
-    password: 'jdxTdPU0sr_A', // 数据库密码
+    password: 'root2019', // 数据库密码
     database: 'web_test_db', // 数据库名称
     dialectOptions: {
         charset: 'utf8mb4',

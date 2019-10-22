@@ -1,14 +1,6 @@
 "use strict";
-// import * as Koa from 'koa';
-// import * as Router from "koa-router";
 Object.defineProperty(exports, "__esModule", { value: true });
-// const app: Koa = new Koa();              // 新建一个Koa对象
-// const router: Router = new Router();     // 新建一个koa-router对象
-// router.get('/*', async (ctx: any) => {       // 截获所有路由,都指向此函数
-//     ctx.body = "Hello Koa and TS,I am keysking.";      // 向浏览器返回数据
-// })
-// app.use(router.routes());   // 使用路由
-// app.listen(3001);           // 监听3000端口
+//import * as name from 'name'; commonjs模块的导入方法 的ts导入方法
 const Koa = require("koa");
 const app = new Koa();
 const views = require('koa-views');
@@ -17,8 +9,8 @@ const json = require('koa-json');
 const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
-const index = require('./routes/index');
-const users = require('./routes/users');
+const path = require('path');
+const MainRoutes = require('./routes/index');
 // error handler
 onerror(app);
 // middlewares
@@ -28,21 +20,26 @@ app.use(bodyparser({
 app.use(json());
 app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
-app.use(views(__dirname + '/views', {
-    extension: 'pug'
+// install the engines you wish to use
+app.use(views(path.resolve(__dirname, '../web'), {
+    map: {
+        html: 'underscore'
+    }
 }));
 // logger
 app.use(async (ctx, next) => {
     const start = new Date();
     await next();
-    const ms = new Date() - start;
+    const end = new Date();
+    const ms = end.getTime() - start.getTime();
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 // routes
-app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(MainRoutes.routes()).use(MainRoutes.allowedMethods());
+// app.use(index.routes()).use(index.allowedMethods())
+// app.use(users.routes()).use(users.allowedMethods())
 // error-handling
 app.on('error', (err, ctx) => {
     console.error('server error', err, ctx);
 });
-module.exports = app;
+exports.default = app;

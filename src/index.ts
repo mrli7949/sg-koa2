@@ -2,17 +2,16 @@ import app from './app';
 var debug = require('debug')('demo:server');
 var http = require('http');
 
-import {printLog} from './controller/test';
-import printDeafult from './controller/defaultPrint';
-printLog()
-printDeafult()
+// import {printLog} from './controller/test';
+// import printDeafult from './controller/defaultPrint';
+// printLog()
+// printDeafult()
 
 /**
  * Get port from environment and store in Express.
  */
 
 var port = normalizePort(process.env.PORT || '3000');
-// app.set('port', port);
 
 /**
  * Create HTTP server.

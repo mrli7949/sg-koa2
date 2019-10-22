@@ -1,6 +1,12 @@
-var app = require('/app.ts');
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const app_1 = require("./app");
 var debug = require('debug')('demo:server');
 var http = require('http');
+// import {printLog} from './controller/test';
+// import printDeafult from './controller/defaultPrint';
+// printLog()
+// printDeafult()
 /**
  * Get port from environment and store in Express.
  */
@@ -9,7 +15,7 @@ var port = normalizePort(process.env.PORT || '3000');
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app.callback());
+var server = http.createServer(app_1.default.callback());
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -64,4 +70,5 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+    console.log('onListening', addr);
 }
